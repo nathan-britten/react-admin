@@ -94,6 +94,30 @@ export default {
                 },
             ],
             notifications: [12, 31, 42],
+            pictures: [
+                {
+                    name: 'the picture name',
+                    url: 'http://www.photo-libre.fr/paysage/1.jpg',
+                    metas: {
+                        title: 'This is a great photo',
+                        definitions: ['72', '300'],
+                        authors: [
+                            {
+                                name: 'Paul',
+                                email: 'paul@email.com',
+                            },
+                            {
+                                name: 'Joe',
+                                email: 'joe@email.com',
+                            },
+                        ],
+                    },
+                },
+                {
+                    name: 'better name',
+                    url: 'http://www.photo-libre.fr/paysage/2.jpg',
+                },
+            ],
         },
         {
             id: 4,
@@ -123,6 +147,30 @@ export default {
             published_at: new Date('2012-08-05'),
             category: 'tech',
             notifications: [12, 31, 42],
+            pictures: [
+                {
+                    name: 'the picture name',
+                    url: 'http://www.photo-libre.fr/paysage/1.jpg',
+                    metas: {
+                        title: 'This is a great photo',
+                        definitions: ['72', '300'],
+                        authors: [
+                            {
+                                name: 'Paul',
+                                email: 'paul@email.com',
+                            },
+                            {
+                                name: 'Joe',
+                                email: 'joe@email.com',
+                            },
+                        ],
+                    },
+                },
+                {
+                    name: 'better name',
+                    url: 'http://www.photo-libre.fr/paysage/2.jpg',
+                },
+            ],
         },
         {
             id: 6,
@@ -137,6 +185,38 @@ export default {
             tags: [1, 4],
             category: 'tech',
             notifications: [42],
+            pictures: [
+                {
+                    name: 'the picture name',
+                    url: 'http://www.photo-libre.fr/paysage/1.jpg',
+                    metas: {
+                        title: 'This is a great photo',
+                        definitions: ['72', '300'],
+                        authors: [
+                            {
+                                name: 'Paul',
+                                email: 'paul@email.com',
+                            },
+                            {
+                                name: 'Joe',
+                                email: 'joe@email.com',
+                            },
+                        ],
+                    },
+                },
+                {
+                    name: 'better name',
+                    url: 'http://www.photo-libre.fr/paysage/2.jpg',
+                },
+                {
+                    name: 'better name',
+                    url: 'http://www.photo-libre.fr/paysage/2.jpg',
+                },
+                {
+                    name: 'better name',
+                    url: 'http://www.photo-libre.fr/paysage/2.jpg',
+                },
+            ],
         },
         {
             id: 7,
@@ -239,11 +319,29 @@ export default {
             pictures: [],
             backlinks: [
                 {
-                    date: '2012-08-07T00:00:00.000Z',
+                    date: [
+                        {
+                            name: '1',
+                            something: '1',
+                        },
+                        {
+                            name: '2',
+                            something: '2',
+                        },
+                    ],
                     url: 'http://example.com/foo/bar.html',
                 },
                 {
-                    date: '2012-08-12T00:00:00.000Z',
+                    date: [
+                        {
+                            name: '1',
+                            something: '1',
+                        },
+                        {
+                            name: '2',
+                            something: '2',
+                        },
+                    ],
                     url: 'https://blog.johndoe.com/2012/08/12/foobar.html',
                 },
             ],

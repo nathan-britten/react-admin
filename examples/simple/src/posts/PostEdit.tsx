@@ -30,6 +30,8 @@ import {
     FormDataConsumer,
     useCreateSuggestionContext,
     EditActionsProps,
+    useNotify,
+    useRefresh,
 } from 'react-admin'; // eslint-disable-line import/no-unresolved
 import {
     Box,
@@ -102,148 +104,36 @@ const categories = [
 ];
 
 const PostEdit = ({ permissions, ...props }) => {
+    const notify = useNotify();
+    const refresh = useRefresh();
+    function onSuccess() {
+        notify('Changes were saved successfully');
+        refresh();
+    }
     return (
-        <Edit title={<PostTitle />} actions={<EditActions />} {...props}>
+        <Edit
+            title={<PostTitle />}
+            actions={<EditActions />}
+            {...props}
+            onSuccess={onSuccess}
+        >
             <TabbedForm
                 initialValues={{ average_note: 0 }}
                 warnWhenUnsavedChanges
+                mutationMode="pessimistic"
             >
-                <FormTab label="post.form.summary">
-                    <SanitizedBox
-                        display="flex"
-                        flexDirection="column"
-                        width="100%"
-                        justifyContent="space-between"
-                        fullWidth
-                    >
-                        <TextInput disabled source="id" />
-                        <TextInput
-                            source="title"
-                            validate={required()}
-                            resettable
-                        />
-                    </SanitizedBox>
-                    <TextInput
-                        multiline={true}
-                        fullWidth={true}
-                        source="teaser"
-                        validate={required()}
-                        resettable
-                    />
-                    <CheckboxGroupInput
-                        source="notifications"
-                        choices={[
-                            { id: 12, name: 'Ray Hakt' },
-                            { id: 31, name: 'Ann Gullar' },
-                            { id: 42, name: 'Sean Phonee' },
-                        ]}
-                    />
-                    <ImageInput multiple source="pictures" accept="image/*">
-                        <ImageField source="src" title="title" />
-                    </ImageInput>
-                    {permissions === 'admin' && (
-                        <ArrayInput source="authors">
-                            <SimpleFormIterator>
-                                <ReferenceInput
-                                    label="User"
-                                    source="user_id"
-                                    reference="users"
-                                >
-                                    <AutocompleteInput />
-                                </ReferenceInput>
-                                <FormDataConsumer>
-                                    {({
-                                        formData,
-                                        scopedFormData,
-                                        getSource,
-                                        ...rest
-                                    }) =>
-                                        scopedFormData &&
-                                        scopedFormData.user_id ? (
-                                            <SelectInput
-                                                label="Role"
-                                                source={getSource('role')}
-                                                choices={[
-                                                    {
-                                                        id: 'headwriter',
-                                                        name: 'Head Writer',
-                                                    },
-                                                    {
-                                                        id: 'proofreader',
-                                                        name: 'Proof reader',
-                                                    },
-                                                    {
-                                                        id: 'cowriter',
-                                                        name: 'Co-Writer',
-                                                    },
-                                                ]}
-                                                {...rest}
-                                            />
-                                        ) : null
-                                    }
-                                </FormDataConsumer>
-                            </SimpleFormIterator>
-                        </ArrayInput>
-                    )}
-                </FormTab>
-                <FormTab label="post.form.body">
-                    <RichTextInput
-                        source="body"
-                        label=""
-                        validate={required()}
-                        addLabel={false}
-                    />
-                </FormTab>
                 <FormTab label="post.form.miscellaneous">
-                    <TagReferenceInput
-                        reference="tags"
-                        source="tags"
-                        label="Tags"
-                    />
                     <ArrayInput source="backlinks">
                         <SimpleFormIterator>
-                            <DateInput source="date" />
                             <TextInput source="url" validate={required()} />
+                            <ArrayInput source="date">
+                                <SimpleFormIterator>
+                                    <TextInput source="name" />
+                                    <TextInput source="something" />
+                                </SimpleFormIterator>
+                            </ArrayInput>
                         </SimpleFormIterator>
                     </ArrayInput>
-                    <DateInput
-                        source="published_at"
-                        options={{ locale: 'pt' }}
-                    />
-                    <SelectInput
-                        create={
-                            <CreateCategory
-                                // Added on the component because we have to update the choices
-                                // ourselves as we don't use a ReferenceInput
-                                onAddChoice={choice => categories.push(choice)}
-                            />
-                        }
-                        allowEmpty
-                        resettable
-                        source="category"
-                        choices={categories}
-                    />
-                    <NumberInput
-                        source="average_note"
-                        validate={[required(), number(), minValue(0)]}
-                    />
-                    <BooleanInput source="commentable" defaultValue />
-                    <TextInput disabled source="views" />
-                </FormTab>
-                <FormTab label="post.form.comments">
-                    <ReferenceManyField
-                        reference="comments"
-                        target="post_id"
-                        addLabel={false}
-                        fullWidth
-                    >
-                        <Datagrid>
-                            <DateField source="created_at" />
-                            <TextField source="author.name" />
-                            <TextField source="body" />
-                            <EditButton />
-                        </Datagrid>
-                    </ReferenceManyField>
                 </FormTab>
             </TabbedForm>
         </Edit>
